@@ -1,0 +1,67 @@
+[
+    {
+        "id": "1",
+        "title": "Camiseta Básica",
+        "description": "Camiseta de algodón de alta calidad, disponible en varios colores.",
+        "code": "T001",
+        "price": 25.99,
+        "status": true,
+        "stock": 100,
+        "category": "Ropa",
+        "thumbnails": [
+            ""
+        ]
+    },
+    {
+        "id": "2",
+        "title": "Jeans Slim Fit",
+        "description": "Jeans ajustados, de corte moderno y cómodo. Ideal para el uso diario.",
+        "code": "J002",
+        "price": 49.99,
+        "status": true,
+        "stock": 50,
+        "category": "Ropa",
+        "thumbnails": [
+            ""
+        ]
+    },
+    {
+        "id": "3",
+        "title": "Campera de Cuero",
+        "description": "Campera de cuero genuino, resistente y elegante para cualquier ocasión.",
+        "code": "C003",
+        "price": 149.99,
+        "status": true,
+        "stock": 30,
+        "category": "Ropa",
+        "thumbnails": [
+            ""
+        ]
+    },
+    {
+        "id": "4",
+        "title": "Buzo con Capucha",
+        "description": "Buzo suave con capucha, ideal para climas fríos y para estar cómodo en casa.",
+        "code": "S004",
+        "price": 39.99,
+        "status": true,
+        "stock": 75,
+        "category": "Ropa",
+        "thumbnails": [
+            ""
+        ]
+    },
+    {
+        "id": "5",
+        "title": "Camisa de Lino",
+        "description": "Camisa ligera de lino, perfecta para climas cálidos y eventos casuales.",
+        "code": "CL005",
+        "price": 34.99,
+        "status": true,
+        "stock": 60,
+        "category": "Ropa",
+        "thumbnails": [
+            ""
+        ]
+    }
+]
