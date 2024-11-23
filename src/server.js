@@ -1,24 +1,39 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io'; 
-import path from 'path';
-import exphbs from 'express-handlebars';
+import mongoose from 'mongoose';
 import app from './app.js'; 
 
+// Configuración de conexión a MongoDB
+const mongoURI = 'mongodb://localhost:27017/ecommerce'; 
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log('✅ Conexión exitosa a MongoDB'))
+    .catch(err => console.error('❌ Error conectando a MongoDB:', err));
+
+// Configuración de WebSocket con Socket.io
 const server = http.createServer(app); 
 const io = new Server(server); 
 
-// Configuración de WebSocket
 io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
+    console.log('🔗 Nuevo cliente conectado');
+
     
     socket.on('newProduct', (product) => {
+        console.log('📦 Nuevo producto recibido:', product);
+
         io.emit('updateProducts', product);
+    });
+
+    
+    socket.on('disconnect', () => {
+        console.log('❌ Cliente desconectado');
     });
 });
 
-// Inicializar el servidor
 const PORT = 3000;
 server.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    console.log(`🌐 Servidor escuchando en http://localhost:${PORT}`);
 });

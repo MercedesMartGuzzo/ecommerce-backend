@@ -1,0 +1,17 @@
+<h2>Carrito de Compras</h2>
+
+{{#if cartProducts.length}}
+    <ul>
+        {{#each cartProducts}}
+            <li>
+                <strong>{{this.title}}</strong> - Cantidad: {{this.quantity}} x ${{this.price}} = ${{this.totalPrice}}
+                <form action="/cart/{{this.id}}/remove" method="POST">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </li>
+        {{/each}}
+    </ul>
+    <h2>Total: ${{totalPrice}}</h2>
+{{else}}
+    <p>Tu carrito está vacío.</p>
+{{/if}}
