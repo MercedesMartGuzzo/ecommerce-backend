@@ -13,8 +13,6 @@
             <li>
                 <strong>Nombre:</strong> {{this.title}} <br>
                 <strong>Precio:</strong> ${{this.price}} <br>
-                
-                
                 <form action="/products/{{this.id}}/add-to-cart" method="POST">
                     <label for="quantity">Cantidad:</label>
                     <input type="number" id="quantity" name="quantity" value="1" min="1">

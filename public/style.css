@@ -18,3 +18,24 @@ li {
     padding: 10px;
     border-radius: 5px;
 }
+
+form {
+    margin-top: 10px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid  #28a745;
+}
+
+button:hover {
+    background-color:white;
+    border:1px solid  #28a745;
+    color:  #28a745;
+}

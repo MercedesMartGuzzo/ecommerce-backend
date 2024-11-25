@@ -1,17 +1,35 @@
-<h2>Carrito de Compras</h2>
-
-{{#if cartProducts.length}}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Carrito de Compras</h2>
     <ul>
-        {{#each cartProducts}}
+        {{#each products}}
             <li>
-                <strong>{{this.title}}</strong> - Cantidad: {{this.quantity}} x ${{this.price}} = ${{this.totalPrice}}
-                <form action="/cart/{{this.id}}/remove" method="POST">
+                <strong>Nombre:</strong> {{this.title}} <br>
+                <strong>Precio:</strong> ${{this.price}} <br>
+                <strong>Cantidad:</strong> {{this.quantity}} <br>
+
+                <!-- Formulario para eliminar el producto -->
+                <form action="/cart/1/remove/{{this.id}}" method="POST" style="display:inline;">
                     <button type="submit">Eliminar</button>
                 </form>
             </li>
         {{/each}}
     </ul>
-    <h2>Total: ${{totalPrice}}</h2>
-{{else}}
-    <p>Tu carrito está vacío.</p>
-{{/if}}
+    <h3>Total: ${{totalPrice}}</h3>
+
+    <!-- Formulario para vaciar el carrito -->
+    <form action="/cart/1/clear" method="POST">
+        <button type="submit">Vaciar Carrito</button>
+    </form>
+
+    <br>
+   <a href="/"> <button>Volver a la tienda</button></a>
+</body>
+</html>

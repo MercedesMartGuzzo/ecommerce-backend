@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(process.cwd(), 'public')));
 
-// Ruta principal (Home) para mostrar los productos
+
 app.get('/', async (req, res) => {
     try {
         const data = await fs.readFile(path.join(process.cwd(), 'data', 'products.json'), 'utf-8');
@@ -31,7 +31,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Ruta para agregar productos al carrito
+
 app.post('/products/:id/add-to-cart', async (req, res) => {
     const { id } = req.params;
     const { quantity } = req.body;
@@ -64,12 +64,90 @@ app.post('/products/:id/add-to-cart', async (req, res) => {
         } else { 
             cart.products.push({ productId: id, quantity: parseInt(quantity, 10) });
         }
+
         await fs.writeFile(path.join(process.cwd(), 'data', 'carts.json'), JSON.stringify(carts, null, 2));
         
         res.redirect(`/cart/1`);
     } catch (error) {
         console.error('Error al agregar el producto al carrito:', error);
         res.status(500).send('Error al agregar el producto al carrito');
+    }
+});
+
+
+app.get('/cart/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const cartsData = await fs.readFile(path.join(process.cwd(), 'data', 'carts.json'), 'utf-8');
+        const carts = JSON.parse(cartsData);
+
+        const cart = carts.find(cart => cart.id === id);
+        if (!cart) {
+            return res.status(404).send('Carrito no encontrado');
+        }
+        const productsData = await fs.readFile(path.join(process.cwd(), 'data', 'products.json'), 'utf-8');
+        const products = JSON.parse(productsData);
+
+        const cartProducts = cart.products.map(item => {
+            const product = products.find(p => p.id === item.productId);
+            return { 
+                ...product, 
+                quantity: item.quantity 
+            };
+        });
+
+        const totalPrice = cartProducts.reduce((total, product) => total + (product.price * product.quantity), 0);
+
+        res.render('carts', { 
+            products: cartProducts,
+            totalPrice: totalPrice
+        });
+    } catch (error) {
+        console.error('Error al cargar el carrito:', error);
+        res.status(500).send('Error al cargar el carrito');
+    }
+});
+
+app.post('/cart/:id/remove/:productId', async (req, res) => {
+    const { id, productId } = req.params;
+
+    try {
+        const cartsData = await fs.readFile(path.join(process.cwd(), 'data', 'carts.json'), 'utf-8');
+        const carts = JSON.parse(cartsData);
+
+        const cart = carts.find(cart => cart.id === id);
+        if (!cart) {
+            return res.status(404).send('Carrito no encontrado');
+        }
+
+        cart.products = cart.products.filter(item => item.productId !== productId);
+
+        await fs.writeFile(path.join(process.cwd(), 'data', 'carts.json'), JSON.stringify(carts, null, 2));
+
+        res.redirect(`/cart/${id}`);
+    } catch (error) {
+        console.error('Error al eliminar el producto del carrito:', error);
+        res.status(500).send('Error al eliminar el producto');
+    }
+});
+
+
+app.post('/cart/:id/clear', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const cartsData = await fs.readFile(path.join(process.cwd(), 'data', 'carts.json'), 'utf-8');
+        const carts = JSON.parse(cartsData);
+        const cart = carts.find(cart => cart.id === id);
+        if (!cart) {
+            return res.status(404).send('Carrito no encontrado');
+        }
+        cart.products = [];
+        await fs.writeFile(path.join(process.cwd(), 'data', 'carts.json'), JSON.stringify(carts, null, 2));
+        res.redirect(`/cart/${id}`);
+    } catch (error) {
+        console.error('Error al vaciar el carrito:', error);
+        res.status(500).send('Error al vaciar el carrito');
     }
 });
 
